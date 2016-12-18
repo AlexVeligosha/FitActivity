@@ -1,12 +1,20 @@
-package com.example.hatsune.fitactivity;
+package com.example.hatsune.fitactivity.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.hatsune.fitactivity.R;
+import com.example.hatsune.fitactivity.ActivityListAdapter;
+import com.example.hatsune.fitactivity.dto.ActivityDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -22,11 +30,13 @@ public class HistoryFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final int LAYOUT = R.layout.fragment_history;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    View view;
     private OnFragmentInteractionListener mListener;
 
     public HistoryFragment() {
@@ -64,8 +74,25 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+        view = inflater.inflate(LAYOUT, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new ActivityListAdapter(createMockListData()));
+        return view;
     }
+
+    private List<ActivityDTO> createMockListData() {
+        List<ActivityDTO> list = new ArrayList<>();
+        list.add(new ActivityDTO(10));
+        list.add(new ActivityDTO(42));
+        list.add(new ActivityDTO(24));
+        list.add(new ActivityDTO(44));
+        list.add(new ActivityDTO(15));
+        list.add(new ActivityDTO(30));
+
+        return list;
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

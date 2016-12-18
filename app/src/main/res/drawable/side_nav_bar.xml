@@ -5,6 +5,6 @@
         android:endColor="@color/colorPrimaryDark"
         android:centerColor="@color/colorAccent"
         android:startColor="@color/colorPrimary"
-        android:type="linear" />
+        android:type="radial" />
 </shape>
 
