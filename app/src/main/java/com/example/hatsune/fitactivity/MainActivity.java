@@ -1,9 +1,11 @@
 package com.example.hatsune.fitactivity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,19 +16,30 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.hatsune.fitactivity.dto.ActivityDTO;
 import com.example.hatsune.fitactivity.fragment.HistoryFragment;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    FragmentTransaction fragmentTransaction;
-    HistoryFragment historyFragment;
+    private FragmentTransaction fragmentTransaction;
+    private HistoryFragment historyFragment;
+    private Toolbar toolbar;
+    private List<ActivityDTO> data;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -47,7 +60,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        historyFragment = new HistoryFragment();
+        data = new LinkedList<>();
+        historyFragment = HistoryFragment.newInstance();
     }
 
     @Override
@@ -86,16 +100,45 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        new ActivityTask().execute();
 
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
         switch (item.getItemId()){
             case R.id.nav_history:
+
+                toolbar.setTitle(R.string.history);
                     fragmentTransaction.replace(R.id.content_main, historyFragment).commit();
+                    //historyFragment.refreshData(data);
                 break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class ActivityTask extends AsyncTask<Void, Void, ActivityDTO>{
+
+        @Override
+        protected ActivityDTO doInBackground(Void... voids) {
+            RestTemplate template = new RestTemplate();
+            template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            Log.i("Object: ", "HJHHJHJjhKJHGVCFGHJJH");
+            ActivityDTO object = template.getForObject(Constants.URL.GET_ACTYVITY, ActivityDTO.class);
+            Log.i("Object: ", object.toString());
+
+            return object;
+        }
+
+        @Override
+        protected void onPostExecute(ActivityDTO activityDTO) {
+            List<ActivityDTO> list = new LinkedList<>();
+            list.add(activityDTO);
+            historyFragment.setData(list);
+            historyFragment.refreshData(list);
+        }
+
+
+
     }
 }

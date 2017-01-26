@@ -13,7 +13,7 @@ import com.example.hatsune.fitactivity.R;
 import com.example.hatsune.fitactivity.ActivityListAdapter;
 import com.example.hatsune.fitactivity.dto.ActivityDTO;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -32,13 +32,15 @@ public class HistoryFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final int LAYOUT = R.layout.fragment_history;
 
+    private List<ActivityDTO> data;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     View view;
+    ActivityListAdapter adapter;
     private OnFragmentInteractionListener mListener;
-
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -47,17 +49,14 @@ public class HistoryFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment HistoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HistoryFragment newInstance(String param1, String param2) {
+    public static HistoryFragment newInstance() {
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+        //fragment.setData(data);
         return fragment;
     }
 
@@ -68,6 +67,7 @@ public class HistoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        data = new LinkedList<>();
     }
 
     @Override
@@ -77,22 +77,22 @@ public class HistoryFragment extends Fragment {
         view = inflater.inflate(LAYOUT, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new ActivityListAdapter(createMockListData()));
+        adapter = new ActivityListAdapter(data);
+        recyclerView.setAdapter(adapter);
         return view;
     }
 
     private List<ActivityDTO> createMockListData() {
-        List<ActivityDTO> list = new ArrayList<>();
-        list.add(new ActivityDTO(10));
-        list.add(new ActivityDTO(42));
-        list.add(new ActivityDTO(24));
-        list.add(new ActivityDTO(44));
-        list.add(new ActivityDTO(15));
-        list.add(new ActivityDTO(30));
+        ///doooooo some <code></code>
+        data.add(new ActivityDTO("10"));
+        data.add(new ActivityDTO("42"));
+        data.add(new ActivityDTO("24"));
+        data.add(new ActivityDTO("44"));
+        data.add(new ActivityDTO("15"));
+        data.add(new ActivityDTO("30"));
 
-        return list;
+        return data;
     }
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -102,12 +102,13 @@ public class HistoryFragment extends Fragment {
     }
 
 
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -120,7 +121,24 @@ public class HistoryFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
+
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    public List<ActivityDTO> getData() {
+        return data;
+    }
+
+    public void setData(List<ActivityDTO> data) {
+        this.data = data;
+    }
+
+    public void refreshData(List<ActivityDTO> data){
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
+    }
 }
+
+
+
+
