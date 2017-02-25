@@ -7,8 +7,8 @@ package com.example.hatsune.fitactivity;
 public class Constants {
 
     public static class URL{
-        private static final String HOST = "http://192.168.1.116:8087/";
+        private static final String HOST = "http://192.168.1.109:8087/";
 
-        public static final String GET_ACTYVITY =  HOST + "server/firstactivity";
+        public static final String GET_ACTYVITY =  HOST + "server/activity";
     }
 }

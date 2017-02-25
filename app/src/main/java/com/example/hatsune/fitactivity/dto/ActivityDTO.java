@@ -9,7 +9,7 @@ import java.util.Date;
 public class ActivityDTO {
 
     private String id;
-    private String start;
+    private String date;
     private String duration;
     private String user;
 
@@ -29,12 +29,12 @@ public class ActivityDTO {
         this.id = id;
     }
 
-    public String getStart() {
-        return start;
+    public String getDate() {
+        return date;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDuration() {

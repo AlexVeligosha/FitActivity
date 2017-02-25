@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.hatsune.fitactivity.R;
 import com.example.hatsune.fitactivity.ActivityListAdapter;
+import com.example.hatsune.fitactivity.R;
 import com.example.hatsune.fitactivity.dto.ActivityDTO;
 
 import java.util.LinkedList;
@@ -74,6 +74,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTitle(R.string.history);
         view = inflater.inflate(LAYOUT, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -82,17 +83,6 @@ public class HistoryFragment extends Fragment {
         return view;
     }
 
-    private List<ActivityDTO> createMockListData() {
-        ///doooooo some <code></code>
-        data.add(new ActivityDTO("10"));
-        data.add(new ActivityDTO("42"));
-        data.add(new ActivityDTO("24"));
-        data.add(new ActivityDTO("44"));
-        data.add(new ActivityDTO("15"));
-        data.add(new ActivityDTO("30"));
-
-        return data;
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

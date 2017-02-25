@@ -9,10 +9,7 @@ import android.widget.TextView;
 
 import com.example.hatsune.fitactivity.dto.ActivityDTO;
 
-import java.util.LinkedList;
 import java.util.List;
-
-import static android.media.CamcorderProfile.get;
 
 /**
  * Created by hatsune on 17.12.16.
@@ -35,6 +32,7 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
     public void onBindViewHolder(ActivitiViewHolder holder, int position) {
         ActivityDTO item = data.get(position);
         holder.duration.setText(item.getDuration() + " min");
+        holder.date.setText(item.getDate());
     }
 
     @Override
@@ -46,12 +44,13 @@ public class ActivityListAdapter extends RecyclerView.Adapter<ActivityListAdapte
 
 
         CardView cardView;
-
         TextView duration;
+        TextView date;
         public ActivitiViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.cardView);
             duration = (TextView) itemView.findViewById(R.id.duration);
+            date = (TextView) itemView.findViewById(R.id.date);
         }
 
     }

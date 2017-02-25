@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="0dp"
     android:layout_marginLeft="12dp"
     android:layout_marginRight="12dp">
 
@@ -36,13 +36,12 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/duration"
                     android:textSize="20sp"
-                    android:textColor="@color/colorBlack" />
+                    android:textColor="@color/colorBlack"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/data"
-                    android:text="Random text"
+                    android:id="@+id/date"
                     android:textSize="14sp"/>
             </LinearLayout>
 
